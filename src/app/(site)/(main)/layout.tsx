@@ -3,12 +3,12 @@
 import { Inter } from "next/font/google";
 import ClientLayout from "./ClientLayout";
 import { TopNavbar } from "@/components/component/Topnavbar";
-// import NextTopLoader from 'nextjs-toploader';
+import NextTopLoader from 'nextjs-toploader';
 
 
 const inter = Inter({
-    weight:"200",
-    subsets:["latin"]
+    weight: "200",
+    subsets: ["latin"]
 },
 
 )
@@ -21,7 +21,7 @@ export default function SiteLayout({
     return (
         <div className="">
             <ClientLayout>
-            {/* <NextTopLoader
+                <NextTopLoader
             color="#2299DD"
             initialPosition={0.08}
             crawlSpeed={500}
@@ -31,9 +31,13 @@ export default function SiteLayout({
             easing="ease"
             speed={500}
             shadow="0 0 10px #2299DD,0 0 5px #2299DD"
-        /> */}
-                <TopNavbar/>
-                {children}
+        />
+                <div className="">
+                    <TopNavbar />
+                </div>
+                <div className="pt-[70px]">
+                    {children}
+                </div>
             </ClientLayout>
         </div>
     )

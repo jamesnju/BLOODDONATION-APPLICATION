@@ -16,8 +16,8 @@ const Donars = ({allDonars}:{allDonars:any}) => {
   return (
     <>
       <div className="">
-        <div className="flex justify-end">
-          <button onClick={handleModal} className='bg-[#1a237e] text-white text-lg  p-2 rounded-md font-bold'>Add Donar</button>
+        <div className="flex justify-end mx-10">
+          <button onClick={handleModal} className='bg-[#1e6096] text-white text-lg  p-2 rounded-md font-bold'>Add Donar</button>
         </div>
           <div className="">
           {/* <DataTable columns={DonorColunms} data={allDonor} /> */}

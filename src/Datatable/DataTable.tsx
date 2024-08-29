@@ -158,11 +158,11 @@ export function DataTable<TData, TValue>({
                     placeholder="Filter all columns..."
                     value={globalFilter ?? ""}
                     onChange={(event) => setGlobalFilter(event.target.value)}
-                    className="max-w-60 rounded-md outline-none p-4 h-12 bg-gray-500 text-white text-lg font-bold"
+                    className="max-w-60 rounded-md outline-none p-4 h-12 bg-gray-300 text-black text-lg font-bold"
                 />
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                        <Button variant="outline" className="ml-auto bg-[#1a237e] hove:bg-[#2196f3] text-white text-base font-bold">
+                        <Button variant="outline" className="ml-auto bg-[#1e6096] hove:bg-[#2196f3] text-white text-base font-bold">
                             Hide Columns
                         </Button>
                     </DropdownMenuTrigger>
@@ -183,13 +183,13 @@ export function DataTable<TData, TValue>({
                     </DropdownMenuContent>
                 </DropdownMenu>
             </div>
-            <div className="rounded-md border">
+            <div className="rounded-md border mx-4">
                 <Table>
                     <TableHeader>
                         {table.getHeaderGroups().map((headerGroup) => (
                             <TableRow key={headerGroup.id}>
                                 {headerGroup.headers.map((header) => (
-                                    <TableHead key={header.id} className="bg-[#1a237e]">
+                                    <TableHead key={header.id} className="bg-[#090b20]">
                                         {header.isPlaceholder ? null : (
                                             <div className="flex items-center text-white ">
                                                 {flexRender(header.column.columnDef.header, header.getContext())}
@@ -198,7 +198,7 @@ export function DataTable<TData, TValue>({
                                                     variant="ghost"
                                                     onClick={() => header.column.toggleSorting(header.column.getIsSorted() === "asc")}
                                                 >
-                                                    <ArrowUpDown className="ml-2 h-4 w-4" />
+                                                    <ArrowUpDown className="ml-1 h-4 w-3" />
                                                 </Button>
                                             </div>
                                         )}
