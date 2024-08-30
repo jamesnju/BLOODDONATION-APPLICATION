@@ -17,7 +17,7 @@ const deleteSlice= createSlice({
         deleteAction:(state,action) =>{
             state.delete=action.payload
         },
-        isOpenAction:(state,action)=>{
+        isOpenAction:(state)=>{
             state.isOpen = !state.isOpen
         },
         isActiveAction:(state,action)=>{

@@ -9,12 +9,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/Redux/Store';
 import { activeAction, editAction, openAction } from '@/Redux/slice/EditSlice';
 
-const EditDonarModal = ({ onSubmit }: { onSubmit: () => void; }) => {
+const EditDonarModal = () => {
     const [loading, setLoading] = useState(false);
     const editData = useSelector((state: RootState) => state.editdata.Editdata);
     const isOpen = useSelector((state: RootState) => state.editdata.isOpen);
     const dispatch = useDispatch();
-    console.log(editData, "editData");
+    // console.log(editData, "editData");
     
 
     const closeModal = () => {
@@ -31,10 +31,8 @@ const EditDonarModal = ({ onSubmit }: { onSubmit: () => void; }) => {
         onSuccess: (data) => {
             Revalidate('getdonars');
             setLoading(false);
-            onSubmit();
-            formik.resetForm();
-
-            if (data && !data.error) {
+            closeModal();
+            if (!data?.error) {
                 toast.success(<div className="flex">{data.message || "Donor updated successfully"}</div>);
             } else {
                 toast.error(<div className="flex"><span className='text-red-600'>{data?.message || "Error updating donor"}</span></div>);
@@ -71,15 +69,26 @@ const EditDonarModal = ({ onSubmit }: { onSubmit: () => void; }) => {
         }),
         onSubmit: async (values: DonarsDetails) => {
             setLoading(true);
+            console.log(values, "editvalues")
             updateMutation.mutate(values);
         },
     });
 
     useEffect(()=>{
         if(isOpen && editData){
-            formik.setValues(editData);
+            formik.setValues(
+                {
+                    id: editData.id,
+                    fullName: editData.fullName,
+                    age: editData.age,
+                    bloodGroup: editData.bloodGroup,
+                    phoneNumber: editData.phoneNumber,
+                    address: editData.address,
+                    email: editData.email,
+                }
+            );
         }
-    },[])
+    },[isOpen, editData])
 
     if (!isOpen) return null;
 

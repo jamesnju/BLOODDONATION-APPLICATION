@@ -4,6 +4,7 @@ import { DonarColunms} from './DonarColunms';
 import AddDonarModal from '@/Modals/donarmodals/AddDonarModal';
 import { DataTable } from '@/Datatable/DataTable';
 import EditDonarModal from '@/Modals/donarmodals/EditDonarModal';
+import DeleteDonarModal from '@/Modals/donarmodals/DeleteDonarModal';
 
 
 export interface DonarsDetails {
@@ -49,11 +50,9 @@ const Donars = ({allDonars}:{allDonars:any}) => {
         onClose={handleModal}
         onSubmit={() => {}}  // Handle submission logic if needed
       />
-      <EditDonarModal
-      //isOpen={newModal}
-      //onClose={handleModal}
-        onSubmit={() => { } } 
-      />
+      {/* <EditDonarModal 
+      /> */}
+      <DeleteDonarModal/>
     </>
   );
 };

@@ -24,8 +24,8 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Button } from "@/components/ui/button";
 import { ArrowUpDown, MoreHorizontal } from "lucide-react";
 import { useDispatch } from "react-redux";
-import { editAction } from "@/Redux/slice/EditSlice";
-import { deleteAction } from "@/Redux/slice/DeleteSlice";
+import { editAction, openAction } from "@/Redux/slice/EditSlice";
+import { deleteAction, isOpenAction } from "@/Redux/slice/DeleteSlice";
 import { Input } from "@/components/ui/input";
 interface Data {
     id: string;
@@ -74,13 +74,20 @@ export function DataTable<TData, TValue>({
                             <DropdownMenuContent align="end">
                                 <DropdownMenuLabel>Actions</DropdownMenuLabel>
                                 {actions.edit && (
-                                    <DropdownMenuItem onClick={() => dispatch(editAction(row.original))}>
-                                        Edit
+                                    <DropdownMenuItem onClick={() => {
+                                        dispatch(editAction(row.original))
+                                        dispatch(openAction())
+                                    }}>
+                                        <span className="text-green-600">Edit</span>
                                     </DropdownMenuItem>
                                 )}
                                 {actions.delete && (
-                                    <DropdownMenuItem onClick={() => dispatch(deleteAction(row.original))}>
-                                        Delete
+                                    <DropdownMenuItem onClick={() => {
+                                        dispatch(deleteAction(row.original))
+                                        dispatch(isOpenAction());
+                                    }}>
+                                        <span className="text-red-600">Delete</span>
+
                                     </DropdownMenuItem>
                                 )}
                                 <DropdownMenuSeparator />

@@ -34,23 +34,67 @@ export async function createDonar(data: DonarsDetails) {
     };
 }
 
-export async function updateDonar(data:DonarsDetails){
+export async function updateDonar(data: DonarsDetails) {
+    try {
+        const res = await fetch(`http://localhost:5127/api/Donar/UpdateDonorDetails/${data.id}`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(data)
+        });
 
-    const res = await fetch(``,{
-        method:"PUT",
-        headers:{
-            "Content-Type":"application/json"
-        },
-        body: JSON.stringify(data)
-    })
-    if(res.status === 200){
-        const data = await res.json();
-        return data
+        if (res.ok) {
+            const result = await res.json();
+            return result;
+        } else {
+            console.log(`Error: ${res.status} - ${res.statusText}`);
+        }
+    } catch (error) {
+        console.error(`Update error: ${error}`);
     }
 
     return {
         res: false,
-        message: "Something Went Wrong"
-    }
+        message: "Something went wrong"
+    };
+}
 
+//Delete DOnar
+
+export async function deleteDonar(id: number) {
+    try {
+        const res = await fetch(`http://localhost:5127/api/Donar/DeleteDonorById/${id}`, {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        });
+
+        if (res.ok) {
+            const text = await res.text(); // Read response as text
+            let result;
+
+            try {
+                result = JSON.parse(text); // Try parsing as JSON
+            } catch (jsonError) {
+                console.error("JSON parsing error:", jsonError);
+                result = { message: text }; // Use raw text if JSON parsing fails
+            }
+
+            return result;
+        } else {
+            console.log(`Error: ${res.status} - ${res.statusText}`);
+            return {
+                res: false,
+                message: `Error: ${res.status} - ${res.statusText}`
+            };
+        }
+    } catch (error) {
+        console.error(`Delete error: ${error}`);
+        return {
+            res: false,
+            message: "Something went wrong"
+        };
+    }
 }
