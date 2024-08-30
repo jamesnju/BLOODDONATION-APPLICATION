@@ -1,34 +1,56 @@
 import { useMutation } from '@tanstack/react-query';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import { createDonar, DonarsDetails } from '../../actions/Donar/Donar';
+import { createDonar, DonarsDetails } from '../../../actions/Donar/Donar';
 import { toast } from 'react-toastify';
 import { useState } from 'react';
+import { Revalidate } from '@/Redux/revalidateActions/Revalidate';
 
-const AddDonarModal = ({ onClose, isOpen, onSubmit }: { onClose: () => void; isOpen: boolean; onSubmit: () => void; }) => {
+const AddDonarModal = ({ onClose, isOpen, onSubmit }:
+    { onClose: () => void; isOpen: boolean; onSubmit: () => void; }) => {
     const [loading, setLoading] = useState(false);
 
     const createMutation = useMutation({
-        mutationFn: async (data: any) => {
+        mutationFn: async (data: DonarsDetails) => {
             const res = await createDonar(data);
             return res;
         },
-        onSuccess: () => {
-            toast.success('Donor added successfully');
+        onSuccess: (data) => {
+            Revalidate('getdonars');
             setLoading(false);
             onSubmit();
+            formik.resetForm();
             onClose();
+            if (!data?.error) {
+                toast.success(
+                    <div className="flex">
+                        {data?.message}
+                    </div>
+                )
+            } else {
+                toast.error(
+                    <div className="flex">
+                        <span className='text-red-600'>{data?.message}</span>
+                    </div>)
+            }
         },
-        onError: () => {
-            toast.error('Failed to add donor');
+        onError: (error) => {
+            toast.error(
+                <div className="flex items-center justify-start gap-2">
+                    <div className="p-1 bg-red-600 rounded-full">
+                    </div>
+                    {`${error}`}
+                </div>
+            );
             setLoading(false);
         }
     });
 
     const formik = useFormik({
         initialValues: {
+            id: 0,
             fullName: '',
-            age: '',
+            age: 0,
             bloodGroup: '',
             phoneNumber: '',
             address: '',
@@ -36,14 +58,15 @@ const AddDonarModal = ({ onClose, isOpen, onSubmit }: { onClose: () => void; isO
         },
         validationSchema: Yup.object({
             fullName: Yup.string().required('Full Name is required'),
-            age: Yup.number().required('Age is required').min(0, 'Age must be a positive number'),
+            age: Yup.number().required('Age is required').min(20, 'Age must be a greater than 20'),
             bloodGroup: Yup.string().required('Blood Group is required'),
             phoneNumber: Yup.string().required('Phone Number is required'),
             address: Yup.string().required('Address is required'),
             email: Yup.string().email('Invalid email address').required('Email is required'),
         }),
-        onSubmit: (values) => {
+        onSubmit: async (values: DonarsDetails) => {
             setLoading(true);
+            //console.log(values, "baff");
             createMutation.mutate(values);
         },
     });

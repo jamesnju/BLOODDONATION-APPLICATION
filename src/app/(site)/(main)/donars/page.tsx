@@ -7,7 +7,8 @@ async function getDonars(){
     headers:{
       "Content-Type":"application/json"
     },
-    next: {tags:["getdonars"]}
+    next: {tags:["getdonars"]},
+    cache:"no-store",
   })
   if(!res.ok) throw new Error ("network issues");
   const data = await res.json()

@@ -9,10 +9,10 @@ import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar"
 export function TopNavbar() {
   const [showNotifications, setShowNotifications] = useState(false)
   return (
-    <header className="mb-20 flex text-white h-16 w-full shrink-0 items-center px-4 md:px-6 bg-background border-b bg-[#090b20] fixed">
+    <header className="mb-20 flex text-white h-16 w-full shrink-0 items-center px-4 md:px-6 bg-background border-b bg-[#090b24] fixed">
       <Link href="/main" className="flex items-center gap-2" prefetch={false}>
         <MountainIcon className="h-6 w-6" />
-        <span className="text-lg font-semibold text-white">Acme Inc</span>
+        <span className="text-lg font-semibold text-white">Donation</span>
       </Link>
       <nav className="ml-auto flex items-center gap-4 sm:gap-6">
         <Link href="/main" className="text-sm font-medium hover:underline underline-offset-4" prefetch={false}>

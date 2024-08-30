@@ -1,9 +1,20 @@
 "use client";
 import React, { useState } from 'react';
 import { DonarColunms} from './DonarColunms';
-import AddDonarModal from '@/Modals/AddDonarModal';
+import AddDonarModal from '@/Modals/donarmodals/AddDonarModal';
 import { DataTable } from '@/Datatable/DataTable';
+import EditDonarModal from '@/Modals/donarmodals/EditDonarModal';
 
+
+export interface DonarsDetails {
+  id: number;
+  fullName: string;
+  age: number;
+  bloodGroup: string;
+  phoneNumber: string;
+  address: string;
+  email: string;
+}
 const Donars = ({allDonars}:{allDonars:any}) => {
   // Initial state is set to false to keep the modal closed by default
   const [newModal, setNewModal] = useState(false);
@@ -36,7 +47,12 @@ const Donars = ({allDonars}:{allDonars:any}) => {
       <AddDonarModal
         isOpen={newModal}
         onClose={handleModal}
-        onSubmit={undefined}  // Handle submission logic if needed
+        onSubmit={() => {}}  // Handle submission logic if needed
+      />
+      <EditDonarModal
+      //isOpen={newModal}
+      //onClose={handleModal}
+        onSubmit={() => { } } 
       />
     </>
   );

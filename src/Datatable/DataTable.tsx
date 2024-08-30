@@ -158,11 +158,11 @@ export function DataTable<TData, TValue>({
                     placeholder="Filter all columns..."
                     value={globalFilter ?? ""}
                     onChange={(event) => setGlobalFilter(event.target.value)}
-                    className="max-w-60 rounded-md outline-none p-4 h-12 bg-gray-300 text-black text-lg font-bold"
+                    className="max-w-70 ml-4 rounded-md outline-none p-4 h-12 bg-gray-300 text-black text-lg font-bold"
                 />
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                        <Button variant="outline" className="ml-auto bg-[#1e6096] hove:bg-[#2196f3] text-white text-base font-bold">
+                        <Button variant="outline" className="mr-auto mx-2 h-12 bg-[#1e6096] hove:bg-[#2196f3] text-white text-sm font-normal">
                             Hide Columns
                         </Button>
                     </DropdownMenuTrigger>
