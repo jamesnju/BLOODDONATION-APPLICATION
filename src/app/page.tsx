@@ -1,10 +1,9 @@
-import Home from "@/components/Home";
+import { Login } from "@/components/component/Login";
 
 export default function Homs() {
   return (
     <div>
-      <h1>Home Page login page</h1>
-      
+      <Login/>
     </div>
   );
 }
