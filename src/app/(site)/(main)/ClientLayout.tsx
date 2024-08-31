@@ -1,24 +1,42 @@
 "use client"
-// import { store } from "@/Redux/Store";
+import { useSession } from "next-auth/react";
+import { SessionWrapper } from "@/components/auth/SessionWrapper";
+import { TopNavbar } from "@/components/component/Topnavbar";
+import NextTopLoader from 'nextjs-toploader';
 import { Inter } from "next/font/google";
-// import { Provider } from  'react-redux';
+
 const inter = Inter({
-    weight:"200",
-    subsets:["latin"]
-},
+    weight: "200",
+    subsets: ["latin"]
+});
 
-)
+export default function ClientLayout({ children }: { children: React.ReactNode }) {
+    const { data: session, status } = useSession();
 
-export default function SiteLayout({
-    children,
-}: {
-    children: React.ReactNode
-}) {
+    // Show a loader or a message while the session status is being determined
+    if (status === "loading") {
+        return <div>Loading...</div>;
+    }
+
     return (
         <div className={`bg-bg-body ${inter.className}`}>
-            {/* <Provider store={store}> */}
-            {children}
-            {/* </Provider> */}
+            <NextTopLoader
+                color="#2299DD"
+                initialPosition={0.08}
+                crawlSpeed={500}
+                height={3}
+                crawl={true}
+                showSpinner={true}
+                easing="ease"
+                speed={500}
+                shadow="0 0 10px #2299DD,0 0 5px #2299DD"
+            />
+            <div className="h-0">
+                {session && <TopNavbar />}
+            </div>
+            <div className="pt-[70px]">
+                {children}
+            </div>
         </div>
-    )
+    );
 }

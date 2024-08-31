@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css'; // Import the CSS for ToastContainer
+import { SessionWrapper } from "@/components/auth/SessionWrapper";
 
 
 const inter = Inter({ subsets: ["latin"] });
@@ -25,7 +26,9 @@ export default function RootLayout({
         position="top-right"
         
       />
+      <SessionWrapper>
         {children}
+      </SessionWrapper>
         </body>
     </html>
   );

@@ -50,8 +50,8 @@ const Donars = ({allDonars}:{allDonars:any}) => {
         onClose={handleModal}
         onSubmit={() => {}}  // Handle submission logic if needed
       />
-      {/* <EditDonarModal 
-      /> */}
+      <EditDonarModal 
+      />
       <DeleteDonarModal/>
     </>
   );

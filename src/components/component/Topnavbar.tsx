@@ -5,11 +5,16 @@ import Link from "next/link"
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuLabel } from "@/components/ui/dropdown-menu"
 import { Button } from "@/components/ui/button"
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar"
+import { signOut, useSession } from "next-auth/react"
 
 export function TopNavbar() {
   const [showNotifications, setShowNotifications] = useState(false)
+
+  const {data: session} = useSession();
+  console.log(session, "session")
+
   return (
-    <header className="mb-20 flex text-white h-16 w-full shrink-0 items-center px-4 md:px-6 bg-background border-b bg-[#090b24] fixed">
+    <header className="mb-20 flex text-white h-16 w-full shrink-0 items-center px-4 md:px-6 bg-background border-b bg-[#0a0c22] fixed">
       <Link href="/main" className="flex items-center gap-2" prefetch={false}>
         <MountainIcon className="h-6 w-6" />
         <span className="text-lg font-semibold text-white">Donation</span>
@@ -21,6 +26,8 @@ export function TopNavbar() {
         <Link href="/donars" className="text-sm font-medium hover:underline underline-offset-4" prefetch={false}>
           Donars
         </Link>
+        <span className="text-white">{session?.user?.email}  {session?.expires}</span>
+      
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button
@@ -64,7 +71,7 @@ export function TopNavbar() {
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" size="icon" className="rounded-full">
               <Avatar className="w-8 h-8">
-                <AvatarImage src="/placeholder-user.jpg" alt="@shadcn" />
+                <AvatarImage src={session?.user?.image ?? 'JN'} alt="@shadcn" />
                 <AvatarFallback>JD</AvatarFallback>
               </Avatar>
               <span className="sr-only">Toggle user menu</span>
@@ -87,10 +94,11 @@ export function TopNavbar() {
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem>
-              <Link href="#" className="flex items-center gap-2" prefetch={false}>
+              <Button  className="flex items-center gap-2" 
+              onClick={() => signOut({ redirect: true, callbackUrl: '/login' })}>
                 <LogOutIcon className="h-4 w-4" />
                 <span>Logout</span>
-              </Link>
+              </Button>
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

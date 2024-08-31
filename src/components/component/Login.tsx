@@ -1,9 +1,30 @@
+"use client"
 import { Button } from "@/components/ui/button"
 import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
 import Link from "next/link"
+import { signIn, useSession } from "next-auth/react"
+import { useRouter } from "next/navigation"
+import Github from "next-auth/providers/github"
+import { useEffect } from "react"
 
 export function Login() {
+  const {data: session, status} = useSession();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (status === 'authenticated') {
+      router.push('/donars');
+    }
+  }, [status, router]);
+
+  const handleSignIn = (provider: string) => {
+    signIn(provider, { callbackUrl: '/donars' });
+  };
+
+  if (status === 'loading') {
+    return <p>Loading...</p>;
+  }
   return (
     <div className="flex flex-col min-h-screen overflow-hidden">
       <div className="flex justify-center gap-2 mb-1 bg-gradient-to-r from-primary to-primary/80">
@@ -26,11 +47,11 @@ export function Login() {
         
         <div className="w-full max-w-md space-y-6">
           <div className="flex justify-between gap-2">
-            <Button variant="outline" className="flex-1">
+            <Button variant="outline" className="flex-1" onClick={() => handleSignIn('github')}>
               <GithubIcon className="mr-2 h-4 w-4" />
               Sign in with GitHub
             </Button>
-            <Button variant="outline" className="flex-1">
+            <Button variant="outline" className="flex-1" onClick={() => handleSignIn('google')}>
               <ChromeIcon className="mr-2 h-4 w-4" />
               Sign in with Google
             </Button>
