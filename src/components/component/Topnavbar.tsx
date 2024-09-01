@@ -21,12 +21,12 @@ export function TopNavbar() {
       </Link>
       <nav className="ml-auto flex items-center gap-4 sm:gap-6">
         <Link href="/main" className="text-sm font-medium hover:underline underline-offset-4" >
-          Home
+          Dashboard
         </Link>
         <Link href="/donars" className="text-sm font-medium hover:underline underline-offset-4" >
           Donars
         </Link>
-        <span className="text-white">{session?.user?.email}  {session?.expires}</span>
+        <span className="text-white">{session?.user?.email}</span>
       
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -81,7 +81,7 @@ export function TopNavbar() {
             <DropdownMenuLabel>John Doe</DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuItem>
-              <Link href="#" className="flex items-center gap-2" >
+              <Link href="/profile" className="flex items-center gap-2" >
                 <UserIcon className="h-4 w-4" />
                 <span>My Profile</span>
               </Link>

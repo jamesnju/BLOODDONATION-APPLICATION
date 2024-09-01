@@ -98,3 +98,26 @@ export async function deleteDonar(id: number) {
         };
     }
 }
+
+
+export async function profileById(id: number) {
+    try {
+        const res = await fetch(`http://localhost:5127/api/Donar/GetDonarById/${id}`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            next: { tags: ["getdonars"] },
+            cache: "no-store",
+        });
+        
+        if (!res.ok) throw new Error("Network issues");
+        
+        const data = await res.json();
+        
+        return data || [];
+    } catch (error) {
+        console.error("Error fetching profile:", error);
+        return []; // Return an empty array or handle the error as needed
+    }
+}

@@ -1,7 +1,7 @@
 import Donars from '@/components/component/Donars'
 import React from 'react'
 
-async function getDonars(){
+export async function getDonars(){
   const res = await fetch("http://localhost:5127/api/Donar/GetAllDonars",{
     method:"GET",
     headers:{
