@@ -20,23 +20,28 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
 
     return (
         <div className={`bg-bg-body ${inter.className}`}>
-            <NextTopLoader
-                color="#2299DD"
-                initialPosition={0.08}
-                crawlSpeed={500}
-                height={3}
-                crawl={true}
-                showSpinner={true}
-                easing="ease"
-                speed={500}
-                shadow="0 0 10px #2299DD,0 0 5px #2299DD"
-            />
-            <div className="h-0">
-                {session && <TopNavbar />}
-            </div>
-            <div className="pt-[70px]">
+            {session ? (
+                <>
+                    <NextTopLoader
+                        color="#2299DD"
+                        initialPosition={0.08}
+                        crawlSpeed={500}
+                        height={3}
+                        crawl={true}
+                        showSpinner={true}
+                        easing="ease"
+                        speed={500}
+                        shadow="0 0 10px #2299DD,0 0 5px #2299DD"
+                    />
+                    <TopNavbar />
+                    <div className="pt-[60px]">
+                        {children}
+                    </div>
+                </>
+            ) : (
+            <div>
                 {children}
-            </div>
+            </div>)}
         </div>
     );
 }

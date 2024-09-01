@@ -23,24 +23,10 @@ export default function SiteLayout({
     return (
         <div className="">
             <ClientLayout>
-                {/* <NextTopLoader
-                    color="#2299DD"
-                    initialPosition={0.08}
-                    crawlSpeed={500}
-                    height={3}
-                    crawl={true}
-                    showSpinner={true}
-                    easing="ease"
-                    speed={500}
-                    shadow="0 0 10px #2299DD,0 0 5px #2299DD"
-                />
                 <div className="">
-                    <TopNavbar />
-                </div> */}
-                <div className="pt-[70px]">
-                    <SessionWrapper>
+                    {/* <SessionWrapper> */}
                         {children}
-                    </SessionWrapper>
+                    {/* </SessionWrapper> */}
                 </div>
             </ClientLayout>
         </div>

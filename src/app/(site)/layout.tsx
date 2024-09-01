@@ -16,9 +16,12 @@ export default function SiteLayout({ children }: { children: React.ReactNode }) 
         <div className={`bg-bg-body ${inter.className}`}>
             <Provider store={store}>
                 <QueryClientProvider client={queryClient}>
+                    <SessionWrapper>
                         {children}
+                    </SessionWrapper>
                 </QueryClientProvider>
             </Provider>
-        </div>
+
+        </div >
     )
 }

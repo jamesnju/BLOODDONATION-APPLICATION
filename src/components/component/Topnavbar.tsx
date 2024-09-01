@@ -14,16 +14,16 @@ export function TopNavbar() {
   console.log(session, "session")
 
   return (
-    <header className="mb-20 flex text-white h-16 w-full shrink-0 items-center px-4 md:px-6 bg-background border-b bg-[#0a0c22] fixed">
-      <Link href="/main" className="flex items-center gap-2" prefetch={false}>
+    <header className="z-[40] mb-20 flex text-white h-16 w-full shrink-0 items-center px-4 md:px-6 bg-background border-b bg-[#0f123a] fixed">
+      <Link href="/main" className="flex items-center gap-2">
         <MountainIcon className="h-6 w-6" />
         <span className="text-lg font-semibold text-white">Donation</span>
       </Link>
       <nav className="ml-auto flex items-center gap-4 sm:gap-6">
-        <Link href="/main" className="text-sm font-medium hover:underline underline-offset-4" prefetch={false}>
+        <Link href="/main" className="text-sm font-medium hover:underline underline-offset-4" >
           Home
         </Link>
-        <Link href="/donars" className="text-sm font-medium hover:underline underline-offset-4" prefetch={false}>
+        <Link href="/donars" className="text-sm font-medium hover:underline underline-offset-4" >
           Donars
         </Link>
         <span className="text-white">{session?.user?.email}  {session?.expires}</span>
@@ -46,20 +46,20 @@ export function TopNavbar() {
           {showNotifications && (
             <DropdownMenuContent align="end">
               <DropdownMenuItem>
-                <Link href="#" className="flex items-center gap-2" prefetch={false}>
+                <Link href="#" className="flex items-center gap-2" >
                   <UserIcon className="h-4 w-4" />
                   <span>New message from John</span>
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuItem>
-                <Link href="#" className="flex items-center gap-2" prefetch={false}>
+                <Link href="#" className="flex items-center gap-2" >
                   <HandHelpingIcon className="h-4 w-4" />
                   <span>Your subscription is expiring soon</span>
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem>
-                <Link href="#" className="flex items-center gap-2" prefetch={false}>
+                <Link href="#" className="flex items-center gap-2" >
                   <LogOutIcon className="h-4 w-4" />
                   <span>View all notifications</span>
                 </Link>
@@ -81,13 +81,13 @@ export function TopNavbar() {
             <DropdownMenuLabel>John Doe</DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuItem>
-              <Link href="#" className="flex items-center gap-2" prefetch={false}>
+              <Link href="#" className="flex items-center gap-2" >
                 <UserIcon className="h-4 w-4" />
                 <span>My Profile</span>
               </Link>
             </DropdownMenuItem>
             <DropdownMenuItem>
-              <Link href="#" className="flex items-center gap-2" prefetch={false}>
+              <Link href="#" className="flex items-center gap-2" >
                 <HandHelpingIcon className="h-4 w-4" />
                 <span>Support</span>
               </Link>

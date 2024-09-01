@@ -6,97 +6,129 @@ import Link from "next/link"
 import { signIn, useSession } from "next-auth/react"
 import { useRouter } from "next/navigation"
 import Github from "next-auth/providers/github"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
+import { toast } from "react-toastify"
 
 export function Login() {
-  const {data: session, status} = useSession();
+  const { data: session, status } = useSession();
+  const [email, setemail] = useState("");
+  const [password, setpassword] = useState("");
   const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleSubmit = async(e: React.FormEvent) => {
+    e.preventDefault()
+    const result = await signIn('credentials',
+      {
+        redirect: false,
+        email,
+        password,
+      });
+      if(result?.error){
+        toast.error(
+          <p>Invalid credentials <span className="h-10 w-10">😌😌</span></p>
+      )}else{
+        toast.success(
+            <p>Login in success <span className="h-10 w-10 text-bla">🙂🙂</span></p>
+      )
+      router.push('/main');
+      }
+  }
 
   useEffect(() => {
     if (status === 'authenticated') {
-      router.push('/donars');
+      router.push('/main');
+      toast.success(
+        <div className="flex">
+          <p>Login Success</p>
+        </div>)
     }
   }, [status, router]);
 
   const handleSignIn = (provider: string) => {
-    signIn(provider, { callbackUrl: '/donars' });
+    signIn(provider, { callbackUrl: '/main' });
   };
 
   if (status === 'loading') {
-    return <p>Loading...</p>;
+    return <p className="items-center w-full justify-center text-center">Loading...</p>;
   }
   return (
     <div className="flex flex-col min-h-screen overflow-hidden">
-      <div className="flex justify-center gap-2 mb-1 bg-gradient-to-r from-primary to-primary/80">
-          <Button variant="outline" className="px-6 py-2 text-sm font-medium">
-            Login
-          </Button>
-          <Button variant="outline" className="px-6 py-2 text-sm font-medium">
-            Sign Up
-          </Button>
+      <div className="grid md:grid-cols-2 min-h-screen">
+        <div className="relative flex items-center justify-center bg-[url('/login-bg.jpg')] bg-cover bg-center">
+          <div className="absolute inset-0 bg-gradient-to-r from-primary to-primary/80 mix-blend-multiply" />
+          <div className="relative z-10 text-center text-primary-foreground">
+            <h1 className="text-4xl font-bold tracking-tight sm:text-5xl">Welcome Back</h1>
+            <p className="mt-3 text-lg">Log in to your account and start exploring our platform.</p>
+          </div>
         </div>
-    <div className="grid md:grid-cols-2 min-h-screen">
-      <div className="relative flex items-center justify-center bg-[url('/login-bg.jpg')] bg-cover bg-center">
-        <div className="absolute inset-0 bg-gradient-to-r from-primary to-primary/80 mix-blend-multiply" />
-        <div className="relative z-10 text-center text-primary-foreground">
-          <h1 className="text-4xl font-bold tracking-tight sm:text-5xl">Welcome Back</h1>
-          <p className="mt-3 text-lg">Log in to your account and start exploring our platform.</p>
+        <div className="flex flex-col items-center justify-center p-4 sm:p-12">
+          <div className="w-full max-w-md space-y-6">
+            <span className="w-full flex text-center justify-center"> Sign in with</span>
+            <div className="flex md:flex-nowrap flex-wrap justify-around gap-2">
+              <Button variant="outline" className="flex-1 text-black" onClick={() => handleSignIn('github')}>
+                <GithubIcon className="mr-1 " size={20} />
+                GitHub
+              </Button>
+              <Button variant="outline" className="flex-1" onClick={() => handleSignIn('google')}>
+                <ChromeIcon className="mr-1  text-red-600" size={50} />
+                Google
+              </Button>
+              <Button variant="outline" className="flex-1">
+                <FacebookIcon className="mr-2 text-blue-900" size={20} />
+                Facebook
+              </Button>
+            </div>
+            <div className="relative">
+              <div className="absolute inset-0 flex items-center">
+                <span className="w-full border-t border-muted" />
+              </div>
+              <div className="relative flex justify-center text-xs uppercase">
+                <span className="bg-background px-2 text-">Or continue with</span>
+              </div>
+            </div>
+            <form action="" onSubmit={handleSubmit}>
+
+              <div className="space-y-2">
+                <div className="space-y-1 flex flex-col">
+                  <Label htmlFor="username">Username</Label>
+                  {email}
+                  <Input id="username"
+                    className="w-full h-14 outline-none bg-gray-300 rounded-md text-black p-4 font-bold text-xl"
+                    placeholder="Enter your username"
+                    value={email}
+                    onChange={(e) => setemail(e.target.value)}
+                  />
+                </div>
+                <div className="space-y-1">
+                  <Label htmlFor="password">Password</Label>
+                  {password}
+                  <Input id="password" type="password"
+                    className="w-full h-14 outline-none bg-gray-300 rounded-md text-black p-4 font-bold text-xl" placeholder="Enter your password"
+                    value={password}
+                    onChange={(e) => setpassword(e.target.value)} />
+                </div>
+                <Button type="submit" className="w-full">
+                  { isLoading ? "Loading.." : "Sign In "}
+                </Button>
+              </div>
+            </form>
+            <div className="flex items-center justify-between">
+              <Link href="#" className="text-sm underline underline-offset-4" prefetch={false}>
+                Forgot password?
+              </Link>
+              <Link href="/register" className="text-sm underline underline-offset-4" prefetch={false}>
+                Don't have an account? Sign up
+              </Link>
+            </div>
+          </div>
         </div>
       </div>
-      <div className="flex flex-col items-center justify-center p-8 sm:p-12">
-        
-        <div className="w-full max-w-md space-y-6">
-          <div className="flex justify-between gap-2">
-            <Button variant="outline" className="flex-1" onClick={() => handleSignIn('github')}>
-              <GithubIcon className="mr-2 h-4 w-4" />
-              Sign in with GitHub
-            </Button>
-            <Button variant="outline" className="flex-1" onClick={() => handleSignIn('google')}>
-              <ChromeIcon className="mr-2 h-4 w-4" />
-              Sign in with Google
-            </Button>
-            <Button variant="outline" className="flex-1">
-              <FacebookIcon className="mr-2 h-4 w-4" />
-              Sign in with Facebook
-            </Button>
-          </div>
-          <div className="relative">
-            <div className="absolute inset-0 flex items-center">
-              <span className="w-full border-t border-muted" />
-            </div>
-            <div className="relative flex justify-center text-xs uppercase">
-              <span className="bg-background px-2 text-muted-foreground">Or continue with</span>
-            </div>
-          </div>
-          <div className="space-y-2">
-            <div className="space-y-1">
-              <Label htmlFor="username">Username</Label>
-              <Input id="username" placeholder="Enter your username" />
-            </div>
-            <div className="space-y-1">
-              <Label htmlFor="password">Password</Label>
-              <Input id="password" type="password" placeholder="Enter your password" />
-            </div>
-            <Button type="submit" className="w-full">
-              Sign In
-            </Button>
-          </div>
-          <div className="flex items-center justify-between">
-            <Link href="#" className="text-sm underline underline-offset-4" prefetch={false}>
-              Forgot password?
-            </Link>
-            <Link href="#" className="text-sm underline underline-offset-4" prefetch={false}>
-              Don't have an account? Sign up
-            </Link>
-          </div>
-        </div>
-      </div>
-    </div>
     </div>
   )
 }
 
-function ChromeIcon(props:any) {
+function ChromeIcon(props: any) {
   return (
     <svg
       {...props}
@@ -120,7 +152,7 @@ function ChromeIcon(props:any) {
 }
 
 
-function FacebookIcon(props:any) {
+function FacebookIcon(props: any) {
   return (
     <svg
       {...props}
@@ -140,7 +172,7 @@ function FacebookIcon(props:any) {
 }
 
 
-function GithubIcon(props:any) {
+function GithubIcon(props: any) {
   return (
     <svg
       {...props}

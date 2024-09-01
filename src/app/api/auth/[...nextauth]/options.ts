@@ -1,7 +1,10 @@
 import { NextAuthOptions } from 'next-auth';
 import GoogleProvider from 'next-auth/providers/google';
 import GithubProvider from 'next-auth/providers/github';
-import Credentials from 'next-auth/providers/credentials';
+import CredentialsProvider from 'next-auth/providers/credentials'
+import { getUserByEmail } from '../../../../../actions/auth/Auth';
+// import { getUserByEmail } from '../../../../../actions/auth/Auth';
+// import bcrypt from 'bcrypt'
 
 export const options: NextAuthOptions = {
   session: {
@@ -9,25 +12,26 @@ export const options: NextAuthOptions = {
     maxAge: 1 * 60 * 60, // 1 hour
   },
   providers: [
-    Credentials({
+    CredentialsProvider({
+      name: 'Credentials',
       credentials: {
-        email: {},
-        password: {},
+        email: { label: 'Email', type: 'text' },
+        password: { label: 'Password', type: 'password' }
       },
-      authorize: async (credentials) => {
-        let user = null
-        // logic to salt and hash password
-        // const pwHash = saltAndHashPassword(credentials.password)
-        // // logic to verify if the user exists
-        // user = await getUserFromDb(credentials.email, pwHash)
-        // if (!user) {
-        //   // No user found, so this is their first attempt to login
-        //   // meaning this is also the place you could do registration
-        //   throw new Error("User not found.")
-        // }
-        // return user object with their profile data
-        return user
-      },
+      async authorize(credentials) {
+        try {
+          if (credentials) {
+            const user = await getUserByEmail(credentials.email, credentials.password);
+            if (user) {
+              return user;
+            }
+          }
+          return null;
+        } catch (error) {
+          console.error(error);
+          return null;
+        }
+      }
     }),
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID as string,
